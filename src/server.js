@@ -1,9 +1,27 @@
 import http from 'http';
 
+const users = [];
 // req => infos about the request
 // res => response to the request
 const server = http.createServer((req, res) => {
-  res.end('Hello World');
+  const { method, url } = req;
+
+  if (method === 'GET' && url === '/users') {
+    return res
+      .setHeader('Content-Type', 'application/json')
+      .end(JSON.stringify(users));
+  }
+
+  if (method === 'POST' && url === '/users') {
+    users.push({
+      id: 1,
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+    });
+    return res.writeHead(201).end();
+  }
+
+  return res.end('Hello World');
 });
 
 server.listen(3333);
