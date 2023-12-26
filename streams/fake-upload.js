@@ -7,7 +7,7 @@ class OneToHundredStream extends Readable {
     const i = this.index++;
 
     setTimeout(() => {
-      if (i > 100) {
+      if (i > 5) {
         this.push(null);
       } else {
         const buf = Buffer.from(`${i}\n`, 'utf-8');
@@ -22,4 +22,6 @@ fetch('http://localhost:3004', {
   method: 'POST',
   body: new OneToHundredStream(),
   duplex: 'half',
-});
+})
+  .then((res) => res.text())
+  .then((data) => console.log(data));
